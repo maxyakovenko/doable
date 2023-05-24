@@ -1,0 +1,11 @@
+.todo--completed .form-check-label {
+    text-decoration: line-through;
+}
+
+.todo .btn-close {
+    visibility: hidden;
+}
+
+.todo:hover .btn-close {
+    visibility: visible;
+}

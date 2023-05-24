@@ -1,0 +1,32 @@
+<form
+    class="pb-2"
+    [formGroup]="form"
+    (ngSubmit)="handleFormSubmit()"
+>
+    <div class="d-flex flex-row align-items-center">
+        <input
+            type="text"
+            class="form-control mr-2"
+            placeholder="Create todo"
+            formControlName="title"
+        >
+        <button
+            type="button"
+            class="btn btn-primary ms-2"
+        >Add</button>
+    </div>
+</form>
+
+<ul class="list-group rounded-0">
+    <li
+        todoItem
+        class="todo list-group-item border-0 d-flex align-items-center justify-content-between ps-0"
+        [ngClass]="{'todo--completed': todo.completed}"
+        *ngFor="let todo of todos"
+        [todo]="todo"
+        (checked)="handleTodoChecked(todo)"
+        (unchecked)="handleTodoUnchecked(todo)"
+        (deleteClicked)="handleTodoDelete(todo)"
+        (doubleClicked)="handleTodoSelection(todo)"
+    ></li>
+</ul>

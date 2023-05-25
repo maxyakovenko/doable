@@ -17,6 +17,8 @@ import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 })
 export class TodoListComponent implements OnInit {
   public todos$: Observable<Todo[]>;
+  public todosTotal$: Observable<number>;
+  public completedTodosTotal$: Observable<number>;
   public currentTodo$: Observable<Todo>;
   private keydown$: Observable<KeyboardEvent>;
   private commandZ$: Observable<KeyboardEvent>;
@@ -46,6 +48,9 @@ export class TodoListComponent implements OnInit {
 
     this.todos$ = this.facade.todos$;
 
+    this.todosTotal$ = this.facade.todosTotal$;
+    this.completedTodosTotal$ = this.facade.completedTodosTotal$;
+
     this.currentTodo$ = this.facade.currentTodo$;
 
     this.commandZ$
@@ -74,12 +79,20 @@ export class TodoListComponent implements OnInit {
     this.facade.delete(todo);
   }
 
-  complete(todo: Todo): void {
-    this.facade.complete(todo);
+  markAsCompleted(todo: Todo): void {
+    this.facade.markAsCompleted(todo);
   }
 
-  uncomplete(todo: Todo): void {
-    this.facade.uncomplete(todo);
+  markAsNotCompleted(todo: Todo): void {
+    this.facade.markAsNotCompleted(todo);
+  }
+
+  markAllAsCompleted(): void {
+    this.facade.markAllAsCompleted();
+  }
+
+  markAllAsNotCompleted(): void {
+    this.facade.markAllAsNotCompleted();
   }
 
   undo(): void {

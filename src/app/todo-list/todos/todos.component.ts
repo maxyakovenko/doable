@@ -7,12 +7,15 @@ import { TodoItemComponent } from '../todo-item/todo.component';
 @Component({
   selector: 'todos',
   templateUrl: './todos.component.html',
+  styleUrls: ['./todos.component.css'],
   standalone: true,
   imports: [CommonModule, ReactiveFormsModule, TodoItemComponent]
 })
 export class TodosComponent {
   public currentTodo: Todo = createTodo();
   @Input() todos: Todo[] = [];
+  @Input() todosTotal: number = 0;
+  @Input() completedTodosTotal: number = 0;
   @Input('currentTodo') set todo(todo: Todo) {
     if (!todo) {
       return;
@@ -26,6 +29,8 @@ export class TodosComponent {
   @Output() todoSelected: EventEmitter<Todo> = new EventEmitter();
   @Output() todoDeleted: EventEmitter<Todo> = new EventEmitter();
   @Output() todoUpdated: EventEmitter<Todo> = new EventEmitter();
+  @Output() markAllAsCompleted: EventEmitter<void> = new EventEmitter();
+  @Output() markAllAsNotCompleted: EventEmitter<void> = new EventEmitter();
 
   public form = new FormGroup<{title: FormControl<string>}>({
     title: new FormControl('', [Validators.required])
@@ -66,5 +71,13 @@ export class TodosComponent {
 
   handleTodoDelete(todo: Todo): void {
     this.todoDeleted.emit(todo);
+  }
+
+  handleMarkAllAsCompleted(): void {
+    this.markAllAsCompleted.emit();
+  }
+
+  handleMarkAllAsNotCompleted(): void {
+    this.markAllAsNotCompleted.emit();
   }
 }

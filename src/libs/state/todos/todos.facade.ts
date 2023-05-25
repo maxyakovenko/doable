@@ -2,7 +2,7 @@ import { ActionsSubject, Store, select } from '@ngrx/store';
 import { guid } from '../utils';
 import { Injectable } from '@angular/core';
 import { Observable, filter } from 'rxjs';
-import { selectCurrentTodo, selectTodos } from '..';
+import { selectCompletedTodosTotal, selectCurrentTodo, selectTodoTotal, selectTodos } from '..';
 import { Todo } from 'src/libs/todos/todo.model';
 import { TodosActionTypes } from './todos.actions';
 import { TodosState } from './todos.reducer';
@@ -13,6 +13,8 @@ import * as TodoActions from './todos.actions';
 })
 export class TodoListFacade {
     todos$: Observable<Todo[]>;
+    todosTotal$: Observable<number>;
+    completedTodosTotal$: Observable<number>;
     currentTodo$: Observable<Todo>;
     mutation$ = this.actions$
         .pipe(
@@ -22,14 +24,15 @@ export class TodoListFacade {
         );
     constructor(private store: Store<TodosState>, private actions$: ActionsSubject) {
         this.todos$ = this.store
-            .pipe(
-                select(selectTodos),
-            );
+            .pipe(select(selectTodos));
 
         this.currentTodo$ = this.store
-            .pipe(
-                select(selectCurrentTodo)
-            );
+            .pipe(select(selectCurrentTodo));
+
+        this.todosTotal$ = this.store
+            .pipe(select(selectTodoTotal));
+        this.completedTodosTotal$ = this.store
+            .pipe(select(selectCompletedTodosTotal))
     }
 
     create(todo: Todo): void {
@@ -52,12 +55,20 @@ export class TodoListFacade {
         this.store.dispatch(TodoActions.remove({ payload: todo }));
     }
 
-    complete(todo: Todo): void {
-        this.store.dispatch(TodoActions.update({ payload: { ...todo, completed: true} }));
+    markAsCompleted(todo: Todo): void {
+        this.store.dispatch(TodoActions.markAsCompleted({ payload: todo }));
     }
 
-    uncomplete(todo: Todo): void {
-        this.store.dispatch(TodoActions.update({ payload: { ...todo, completed: false} }));
+    markAsNotCompleted(todo: Todo): void {
+        this.store.dispatch(TodoActions.markAsNotCompleted({ payload: todo }));
+    }
+
+    markAllAsCompleted(): void {
+        this.store.dispatch(TodoActions.markAllAsCompleted());
+    }
+
+    markAllAsNotCompleted(): void {
+        this.store.dispatch(TodoActions.markAllAsNotCompleted());
     }
 
     undo(): void {

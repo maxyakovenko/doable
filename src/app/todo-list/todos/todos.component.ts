@@ -1,10 +1,14 @@
+import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Todo, createTodo } from 'src/libs/todos/todo.model';
+import { TodoItemComponent } from '../todo-item/todo.component';
 
 @Component({
   selector: 'todos',
-  templateUrl: './todos.component.html'
+  templateUrl: './todos.component.html',
+  standalone: true,
+  imports: [CommonModule, ReactiveFormsModule, TodoItemComponent]
 })
 export class TodosComponent {
   public currentTodo: Todo = createTodo();

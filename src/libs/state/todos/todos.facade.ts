@@ -59,4 +59,12 @@ export class TodoListFacade {
     uncomplete(todo: Todo): void {
         this.store.dispatch(TodoActions.update({ payload: { ...todo, completed: false} }));
     }
+
+    undo(): void {
+        //
+    }
+
+    redo(): void {
+        //
+    }
 }

@@ -1,3 +1,4 @@
+import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Input, Output, ViewEncapsulation } from '@angular/core';
 import { Todo } from 'src/libs/todos/todo.model';
 
@@ -5,7 +6,9 @@ import { Todo } from 'src/libs/todos/todo.model';
   selector: '[todoItem]',
   templateUrl: './todo.component.html',
   styleUrls: ['./todo.component.css'],
-  encapsulation: ViewEncapsulation.None
+  encapsulation: ViewEncapsulation.None,
+  standalone: true,
+  imports: [CommonModule]
 })
 export class TodoItemComponent {
   @Input() todo: Todo;

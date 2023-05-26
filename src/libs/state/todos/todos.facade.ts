@@ -1,5 +1,4 @@
 import { ActionsSubject, Store, select } from '@ngrx/store';
-import { guid } from '../utils';
 import { Injectable } from '@angular/core';
 import { Observable, filter } from 'rxjs';
 import { selectCompletedTodosTotal, selectCurrentTodo, selectTodoTotal, selectTodos } from '..';
@@ -36,7 +35,7 @@ export class TodoListFacade {
     }
 
     create(todo: Todo): void {
-        this.store.dispatch(TodoActions.create({ payload: { ...todo, id: guid() } }));
+        this.store.dispatch(TodoActions.create({ payload: todo }));
     }
 
     load(todos: Todo[]): void {

@@ -1,0 +1,26 @@
+<div class="row d-flex justify-content-center align-items-center h-100">
+    <div [style.width.px]="570">
+        <div class="card rounded-3 mb-2">
+            <div class="card-body p-4">
+                <img class="logo" src="../../assets/logo.png" alt="Doable logo">
+            </div>
+        </div>
+        <div class="card rounded-3">
+            <div class="card-body p-4">
+                <doable-todos
+                    [todos]="(todos$ | async)!"
+                    [currentTodo]="(currentTodo$ | async)!"
+                    (todoChecked)="markAsCompleted($event)"
+                    (todoCreated)="create($event)"
+                    (todoDeleted)="delete($event)"
+                    (todoSelected)="select($event)"
+                    (todoUnchecked)="markAsNotCompleted($event)"
+                    (todoUpdated)="update($event)"
+                    (markAllAsCompleted)="markAllAsCompleted()"
+                    (markAllAsNotCompleted)="markAllAsNotCompleted()"
+                    (clear)="clear()"
+                ></doable-todos>
+            </div>
+        </div>
+    </div>
+</div>

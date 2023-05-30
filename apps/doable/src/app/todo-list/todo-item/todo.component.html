@@ -1,0 +1,37 @@
+<form [formGroup]="form" (ngSubmit)="handleFormSubmit()">
+  <div class="form-check w-100">
+    <div class="d-flex justify-content-between">
+      <div class="w-100">
+        <input
+          type="checkbox"
+          class="form-check-input"
+          [checked]="todo.completed"
+          (change)="handleCheckboxChanged($event)"
+        >
+        <input type="text" #titleInput class="todo__input todo__title" formControlName="title" [hidden]="!selected" autofocus>
+        <label
+          *ngIf="!selected"
+          class="form-check-label user-select-none"
+          (dblclick)="handleDoubleClick()"
+        >{{ todo.title }}</label>
+      </div>
+      <button
+        type="button"
+        class="btn-close"
+        aria-label="Close"
+        (click)="handleDeleteClick()"
+      ></button>
+    </div>
+  </div>
+
+  <div
+    class="todo__selected-actions"
+    *ngIf="selected"
+  >
+    <textarea
+      placeholder="Notes"
+      formControlName="note"
+      class="todo__note todo__input my-2"
+    ></textarea>
+  </div>
+</form>

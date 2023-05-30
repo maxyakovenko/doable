@@ -1,0 +1,94 @@
+{
+  "todos": [
+    {
+      "id": "oqug5bcpne",
+      "title": "Undo/Redo",
+      "note": "",
+      "completed": false
+    },
+    {
+      "id": "lpte2170wqq",
+      "title": "CRUD everywhere",
+      "note": "",
+      "completed": false
+    },
+    {
+      "id": "r900joz1fys",
+      "title": "Actions cleanup",
+      "note": "",
+      "completed": true
+    },
+    {
+      "id": "rwv5d2xhu0b",
+      "title": "Remove totalCount selectors and @Input/@Outputs",
+      "note": "",
+      "completed": true
+    },
+    {
+      "id": "fydf9pwdxc6",
+      "title": "Markdown",
+      "note": "",
+      "completed": false
+    },
+    {
+      "id": "78drwu56e1l",
+      "title": "Rewrite server methods using db only",
+      "note": "",
+      "completed": false
+    },
+    {
+      "id": "w5xh3xggxwf",
+      "title": "Quotes support",
+      "note": "",
+      "completed": false
+    },
+    {
+      "id": "zhevgqr4xbd",
+      "title": "Split custom routes to middlewares (server)",
+      "note": "",
+      "completed": false
+    },
+    {
+      "id": "ex2x5mx4xf5",
+      "title": "Animations",
+      "note": "",
+      "completed": false
+    },
+    {
+      "id": "1uk080rmjmr",
+      "title": "--prod build",
+      "note": "",
+      "completed": false
+    },
+    {
+      "id": "pgbzm9kw1t9",
+      "title": "Shortcuts",
+      "note": "",
+      "completed": false
+    },
+    {
+      "id": "1ky40783t03",
+      "title": "Move completed todos to the end",
+      "note": "",
+      "completed": false
+    },
+    {
+      "id": "64tmpea8tkb",
+      "title": "Overflow",
+      "note": "",
+      "completed": false
+    },
+    {
+      "id": "76ro9jg8m9d",
+      "title": "Drag and drop",
+      "note": "",
+      "completed": false
+    },
+    {
+      "id": "krm17kp7yj",
+      "title": "Solve circular dependency issue",
+      "note": "",
+      "completed": false
+    }
+  ]
+}

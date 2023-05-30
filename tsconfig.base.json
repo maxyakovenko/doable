@@ -1,0 +1,20 @@
+{
+  "compileOnSave": false,
+  "compilerOptions": {
+    "sourceMap": true,
+    "declaration": false,
+    "moduleResolution": "node",
+    "experimentalDecorators": true,
+    "importHelpers": true,
+    "target": "ES2022",
+    "module": "ES2022",
+    "lib": ["ES2022", "dom"],
+    "baseUrl": "./",
+    "paths": {
+      "@env/*": ["apps/doable/src/environments/*"],
+      "@doable/api-interfaces": ["libs/api-interfaces/src/index.ts"],
+      "@doable/core-data": ["libs/core-data/src/index.ts"],
+      "@doable/core-state": ["libs/core-state/src/index.ts"],
+    }
+  }
+}

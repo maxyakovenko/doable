@@ -1,0 +1,34 @@
+.todo--completed .form-check-label {
+    text-decoration: line-through;
+}
+
+.todo:not(.todo--selected) .btn-close {
+    visibility: hidden;
+}
+
+.todo:hover .btn-close {
+    visibility: visible;
+}
+
+.todo--selected {
+    background-color: #20293a0d;
+}
+
+.todo__title {
+    padding: 0;
+}
+
+.todo__input {
+    background: transparent;
+    border: none;
+    width: 100%;
+    outline: none;
+}
+
+.todo__note {
+    display: block;
+    padding-left: 1.5em;
+    background: transparent;
+    border: none;
+    resize: none;
+}

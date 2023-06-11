@@ -1,17 +1,24 @@
-import { ActionsSubject, Store, select } from '@ngrx/store';
 import { Injectable } from '@angular/core';
-import { Observable, filter } from 'rxjs';
-import { selectCurrentTodo, selectTodos } from './todos.selectors';
 import { Todo } from '@doable/api-interfaces';
+import { ActionsSubject, Store, select } from '@ngrx/store';
+import { Observable, filter, take } from 'rxjs';
+import * as UndoableActions from '../undoable/undoable.actions';
+import { UndoableAction } from '../undoable/undoable.actions';
+import { selectFuture, selectHasFuture, selectHasPast, selectPast } from '../undoable/undoable.selectors';
+import { guid } from '../utils';
+import * as TodoActions from './todos.actions';
 import { TodosActionTypes } from './todos.actions';
 import { TodosState } from './todos.reducer';
-import * as TodoActions from './todos.actions';
-import { guid } from '../utils';
+import { selectCurrentTodo, selectTodos } from './todos.selectors';
 
 @Injectable()
 export class TodoListFacade {
     todos$: Observable<Todo[]>;
     currentTodo$: Observable<Todo>;
+    past$: Observable<UndoableAction[]>;
+    future$: Observable<UndoableAction[]>;
+    hasPast$: Observable<boolean>;
+    hasFuture$: Observable<boolean>;
     mutation$ = this.actions$
         .pipe(
             filter((action) => action.type === TodosActionTypes.Create ||
@@ -24,10 +31,15 @@ export class TodoListFacade {
 
         this.currentTodo$ = this.store
             .pipe(select(selectCurrentTodo));
+
+        this.past$ = this.store.select(selectPast);
+        this.future$ = this.store.select(selectFuture);
+        this.hasFuture$ = this.store.select(selectHasFuture);
+        this.hasPast$ = this.store.select(selectHasPast);
     }
 
     create(todo: Todo): void {
-        this.store.dispatch(TodoActions.create({ payload: {...todo, id: guid()} }));
+        this.store.dispatch(TodoActions.create({ payload: { ...todo, id: guid() } }));
         this.store.dispatch(TodoActions.select({ payload: null }));
     }
 
@@ -60,10 +72,16 @@ export class TodoListFacade {
     }
 
     undo(): void {
-        //
+        this.past$.pipe(
+            take(1),
+            filter((past) => !!past.length)
+        ).subscribe((past) => this.store.dispatch(UndoableActions.undo({ payload: past[past.length - 1] })));
     }
 
     redo(): void {
-        //
+        this.future$.pipe(
+            take(1),
+            filter((future) => !!future.length)
+        ).subscribe((future) => this.store.dispatch(UndoableActions.redo({ payload: future[0] })));
     }
 }

@@ -34,7 +34,7 @@
       "id": "78drwu56e1l",
       "title": "Rewrite server methods using db only",
       "note": "",
-      "completed": false
+      "completed": true
     },
     {
       "id": "w5xh3xggxwf",
@@ -85,7 +85,13 @@
       "completed": false
     },
     {
-      "id": "krm17kp7yj",
+      "id": "nkp7om12ta",
+      "title": "Mobile",
+      "note": "",
+      "completed": false
+    },
+    {
+      "id": "ax0qsqoem2i",
       "title": "Solve circular dependency issue",
       "note": "",
       "completed": false

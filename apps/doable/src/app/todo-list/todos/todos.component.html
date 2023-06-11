@@ -52,11 +52,12 @@
     <ul class="list-group mb-1">
         <li
             doableItem
-            *ngFor="let todo of todos"
+            *ngFor="let todo of todos | order"
             class="todo list-group-item"
             [ngClass]="{'todo--completed': todo.completed}"
             [selected]="currentTodo?.id === todo.id"
             [todo]="todo"
+            (cancelled)="handleTodoCancelled($event)"
             (checked)="handleTodoChecked(todo)"
             (deleteClicked)="handleTodoDelete(todo)"
             (doubleClicked)="handleTodoSelection(todo)"

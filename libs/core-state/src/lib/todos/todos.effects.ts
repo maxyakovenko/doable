@@ -1,12 +1,16 @@
 import { Injectable } from '@angular/core';
 import { TodosService } from '@doable/core-data';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { EMPTY, catchError, exhaustMap, map } from 'rxjs';
+import { EMPTY, catchError, exhaustMap, map, switchMap, withLatestFrom } from 'rxjs';
 import * as TodosActions from './todos.actions';
+import * as UndoableActions from '../undoable/undoable.actions';
+import { Store } from '@ngrx/store';
+import { TodosState } from './todos.reducer';
+import { selectTodoById } from './todos.selectors';
 
 @Injectable()
 export class TodosEffects {
-    constructor(private actions$: Actions, private todosService: TodosService) { }
+    constructor(private actions$: Actions, private todosService: TodosService, private store: Store<TodosState>) { }
 
     loadTodos$ = createEffect(() => this.actions$.pipe(
         ofType(TodosActions.load),
@@ -28,7 +32,7 @@ export class TodosEffects {
     completeTodos$ = createEffect(() => this.actions$.pipe(
         ofType(TodosActions.markAsCompleted),
         exhaustMap((action) => this.todosService.complete(action.payload).pipe(
-            map(() => TodosActions.load())
+            switchMap(() => [TodosActions.load(), UndoableActions.add({ payload: action })])
         ))
     ));
 
@@ -43,7 +47,7 @@ export class TodosEffects {
         ofType(TodosActions.create),
         exhaustMap((action) => this.todosService.create(action.payload)
             .pipe(
-                map((todo) => TodosActions.created({ payload: todo })),
+                switchMap((todo) => [UndoableActions.add({ payload: action }), TodosActions.created({ payload: todo })]),
                 catchError(() => EMPTY)
             ))
     ));
@@ -52,7 +56,15 @@ export class TodosEffects {
         ofType(TodosActions.update),
         exhaustMap((action) => this.todosService.update(action.payload)
             .pipe(
-                map((todo) => TodosActions.updated({ payload: todo })),
+                withLatestFrom(this.store.select(selectTodoById(action.payload.id))),
+                switchMap(([newTodo, oldTodo]) => [
+                    TodosActions.updated({ payload: newTodo }),
+                    UndoableActions.add(
+                        { 
+                            payload: { ...action, payload: oldTodo },
+                            future: { ...action, payload: newTodo }
+                        })
+                ]),
                 catchError(() => EMPTY)
             )
         )
@@ -62,7 +74,7 @@ export class TodosEffects {
         ofType(TodosActions.remove),
         exhaustMap((action) => this.todosService.delete(action.payload)
             .pipe(
-                map(() => TodosActions.removed({ payload: action.payload })),
+                switchMap(() => [TodosActions.removed({ payload: action.payload }), UndoableActions.add({ payload: action })]),
                 catchError(() => EMPTY)
             ))
     ));

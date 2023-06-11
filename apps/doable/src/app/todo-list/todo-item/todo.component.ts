@@ -23,7 +23,7 @@ export class TodoItemComponent implements OnChanges {
   @Output() deleteClicked: EventEmitter<void> = new EventEmitter();
   @Output() doubleClicked: EventEmitter<void> = new EventEmitter();
   @Output() saved: EventEmitter<Todo> = new EventEmitter();
-  @Output() cancelled: EventEmitter<void> = new EventEmitter();
+  @Output() cancelled: EventEmitter<Todo> = new EventEmitter();
   @HostBinding('class.todo--selected') get isSelected() {
     return this.selected;
   }
@@ -53,6 +53,7 @@ export class TodoItemComponent implements OnChanges {
       this.form.patchValue(changes['todo'].currentValue);
     }
     if (changes['selected'] && changes['selected'].currentValue) {
+      // TODO: replace
       setTimeout(() => {
         this.titleInput.nativeElement.focus();
       }, 300);
@@ -82,7 +83,11 @@ export class TodoItemComponent implements OnChanges {
 
   handleFormSubmit(): void {
     if (this.form.valid) {
-      this.handleSave();
+      if (this.form.dirty) {
+        this.handleSave();
+        return;
+      }
+      this.handleCancel();
     }
   }
 }

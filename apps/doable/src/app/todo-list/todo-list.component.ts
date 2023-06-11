@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Observable, filter, fromEvent, take } from 'rxjs';
+import { Observable, filter, fromEvent, take, withLatestFrom } from 'rxjs';
 import { TodoListFacade } from '@doable/core-state';
 import { Todo, createTodo } from '@doable/api-interfaces';
 import { TodosComponent } from './todos/todos.component';
@@ -26,6 +26,8 @@ import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 export class TodoListComponent implements OnInit {
   public todos$: Observable<Todo[]>;
   public currentTodo$: Observable<Todo>;
+  public hasPast$: Observable<boolean>;
+  public hasFuture$: Observable<boolean>;
   private keydown$: Observable<KeyboardEvent>;
   private commandZ$: Observable<KeyboardEvent>;
   private commandShiftZ$: Observable<KeyboardEvent>;
@@ -40,10 +42,10 @@ export class TodoListComponent implements OnInit {
         untilDestroyed(this)
       );
     this.commandShiftZ$ = this.keydown$
-        .pipe(
-          filter((e: KeyboardEvent) => e.key === 'z' && e.metaKey && e.shiftKey),
-          untilDestroyed(this)
-        );
+      .pipe(
+        filter((e: KeyboardEvent) => e.key === 'z' && e.metaKey && e.shiftKey),
+        untilDestroyed(this)
+      );
   }
 
   ngOnInit(): void {
@@ -55,11 +57,20 @@ export class TodoListComponent implements OnInit {
     this.todos$ = this.facade.todos$;
 
     this.currentTodo$ = this.facade.currentTodo$;
+    this.hasPast$ = this.facade.hasPast$;
+    this.hasFuture$ = this.facade.hasFuture$;
 
     this.commandZ$
-      .subscribe(() => this.undo());
+      .pipe(
+        withLatestFrom(this.hasPast$),
+        filter(([e, hasPast]) => hasPast)
+      ).subscribe(() => this.undo());
+
     this.commandShiftZ$
-      .subscribe(() => this.redo());
+      .pipe(
+        withLatestFrom(this.hasFuture$),
+        filter(([e, hasFuture]) => hasFuture)
+      ).subscribe(() => this.redo());
 
     this.load();
   }

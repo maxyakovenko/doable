@@ -3,22 +3,24 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Todo, createTodo } from '@doable/api-interfaces';
 import { TodoItemComponent } from '../todo-item/todo.component';
+import { OrderPipe } from '../../core/pipes/order.pipe';
 
 @Component({
   selector: 'doable-todos',
   templateUrl: './todos.component.html',
   styleUrls: ['./todos.component.css'],
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, TodoItemComponent]
+  imports: [CommonModule, ReactiveFormsModule, TodoItemComponent, OrderPipe]
 })
 export class TodosComponent {
   @Input() todos: Todo[] = [];
   @Input() currentTodo: Todo = createTodo();
-  @Output() todoCreated: EventEmitter<Todo> = new EventEmitter();
+  @Output() todoCancelled: EventEmitter<Todo> = new EventEmitter();
   @Output() todoChecked: EventEmitter<Todo> = new EventEmitter();
-  @Output() todoUnchecked: EventEmitter<Todo> = new EventEmitter();
-  @Output() todoSelected: EventEmitter<Todo> = new EventEmitter();
+  @Output() todoCreated: EventEmitter<Todo> = new EventEmitter();
   @Output() todoDeleted: EventEmitter<Todo> = new EventEmitter();
+  @Output() todoSelected: EventEmitter<Todo> = new EventEmitter();
+  @Output() todoUnchecked: EventEmitter<Todo> = new EventEmitter();
   @Output() todoUpdated: EventEmitter<Todo> = new EventEmitter();
   @Output() markAllAsCompleted: EventEmitter<void> = new EventEmitter();
   @Output() markAllAsNotCompleted: EventEmitter<void> = new EventEmitter();
@@ -55,6 +57,10 @@ export class TodosComponent {
 
   handleTodoUpdated(todo: Todo): void {
     this.todoUpdated.emit(todo);
+  }
+
+  handleTodoCancelled(todo: Todo): void {
+    this.todoCancelled.emit(todo);
   }
 
   handleTodoChecked(todo: Todo): void {

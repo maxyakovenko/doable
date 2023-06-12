@@ -4,6 +4,8 @@
 # Doable
 Yet another To-Do list using ngrx with undo/redo support. Bundled as nx monorepo.
 
+![Screenshot 2023-06-12 at 12 39 22](https://github.com/maxyakovenko/doable/assets/5827181/1636e8e1-00e6-498b-ad4e-9b52bc572fe2)
+
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 15.2.3.
 
 ## Development server

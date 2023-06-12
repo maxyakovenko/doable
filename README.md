@@ -1,4 +1,5 @@
-<img src="https://github.com/maxyakovenko/doable/assets/5827181/a4f7d83e-2ca4-482f-9a25-f16e15bb4c3a" width="200" style="background:blue" />   
+![logo2](https://github.com/maxyakovenko/doable/assets/5827181/75ccbe30-4504-45c8-8212-1bf3fc432a5e)
+
 
 # Doable
 Yet another To-Do list using ngrx with undo/redo support. Bundled as nx monorepo.

@@ -7,7 +7,11 @@ This project was generated with [Angular CLI](https://github.com/angular/angular
 
 ## Development server
 
-Run `npm run serve:all` for a dev server (API server is included). Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+Run `nx serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+
+Run `npm run serve:all` for a dev server (API server is included).
+
+Run `npm run serve:api` for a dev API server. The API application should be restarted if you change any of the source files.
 
 ## Build
 

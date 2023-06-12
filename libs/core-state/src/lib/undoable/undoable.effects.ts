@@ -19,8 +19,12 @@ export class UndoableEffects {
                     return TodosActions.undoUpdated({ payload });
                 case TodosActionTypes.Delete:
                     return TodosActions.undoRemoved({ payload });
+                case TodosActionTypes.DeleteMany:
+                    return TodosActions.undoRemovedMany({ payload });
                 case TodosActionTypes.MarkAsCompleted:
                     return TodosActions.undoMarkAsCompleted({ payload });
+                case TodosActionTypes.MarkAsNotCompleted:
+                    return TodosActions.undoMarkAsNotCompleted({ payload });
                 default:
                     return null;
             }
@@ -37,8 +41,12 @@ export class UndoableEffects {
                     return TodosActions.redoUpdated({ payload });
                 case TodosActionTypes.Delete:
                     return TodosActions.redoRemoved({ payload });
+                case TodosActionTypes.DeleteMany:
+                    return TodosActions.redoRemovedMany({ payload });
                 case TodosActionTypes.MarkAsCompleted:
                     return TodosActions.redoMarkAsCompleted({ payload });
+                case TodosActionTypes.MarkAsNotCompleted:
+                    return TodosActions.redoMarkAsNotCompleted({ payload });
                 default:
                     return null;
             }
@@ -73,6 +81,20 @@ export class UndoableEffects {
         ))
     ));
 
+    undoRemovedTodos$ = createEffect(() => this.actions$.pipe(
+        ofType(TodosActions.undoRemovedMany),
+        exhaustMap(({ payload }) => this.todosService.createMany(payload.payload).pipe(
+            map(() => TodosActions.load())
+        ))
+    ));
+
+    redoRemovedTodos$ = createEffect(() => this.actions$.pipe(
+        ofType(TodosActions.redoRemovedMany),
+        exhaustMap(({ payload }) => this.todosService.deleteMany(payload.payload).pipe(
+            map(() => TodosActions.load())
+        ))
+    ));
+
     undoUpdateTodo$ = createEffect(() => this.actions$.pipe(
         ofType(TodosActions.undoUpdated),
         exhaustMap(({ payload }) => this.todosService.update(payload.payload).pipe(
@@ -97,6 +119,20 @@ export class UndoableEffects {
     redoMarkAsCompleted$ = createEffect(() => this.actions$.pipe(
         ofType(TodosActions.redoMarkAsCompleted),
         exhaustMap(({ payload }) => this.todosService.complete(payload.payload).pipe(
+            map(() => TodosActions.load())
+        ))
+    ));
+
+    undoMarkAsNotCompleted$ = createEffect(() => this.actions$.pipe(
+        ofType(TodosActions.undoMarkAsNotCompleted),
+        exhaustMap(({ payload }) => this.todosService.complete(payload.payload).pipe(
+            map(() => TodosActions.load())
+        ))
+    ));
+
+    redoMarkAsNotCompleted$ = createEffect(() => this.actions$.pipe(
+        ofType(TodosActions.redoMarkAsNotCompleted),
+        exhaustMap(({ payload }) => this.todosService.uncomplete(payload.payload).pipe(
             map(() => TodosActions.load())
         ))
     ));

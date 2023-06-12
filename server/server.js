@@ -7,6 +7,14 @@ const middlewares = jsonServer.defaults()
 
 server.use(middlewares)
 server.use(jsonServer.bodyParser)
+server.post('/todos/add', (req, res) => {
+  const { todos: todosToAdd } = req.body;
+  const db = router.db;
+  const { todos } = db.getState();
+  todosToAdd.forEach(todo => todos.push(todo));
+  db.write();
+  res.send();
+})
 server.post('/todos/delete', (req, res) => {
   const { ids } = req.body;
   const db = router.db;

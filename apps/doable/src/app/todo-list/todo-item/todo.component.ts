@@ -44,6 +44,10 @@ export class TodoItemComponent implements OnChanges {
     return this.form.get('title').getRawValue();
   }
 
+  get titleInputElement(): HTMLInputElement {
+    return this.titleInput?.nativeElement;
+  }
+
   get note(): string {
     return this.form.get('note').getRawValue();
   }
@@ -53,11 +57,12 @@ export class TodoItemComponent implements OnChanges {
       this.form.patchValue(changes['todo'].currentValue);
     }
     if (changes['selected'] && changes['selected'].currentValue) {
-      // TODO: replace
-      setTimeout(() => {
-        this.titleInput.nativeElement.focus();
-      }, 300);
+      setTimeout(() => this.focusTitleInput());
     }
+  }
+
+  focusTitleInput(): void {
+    this.titleInputElement?.focus();
   }
 
   handleCheckboxChanged(event: Event): void {
@@ -82,11 +87,12 @@ export class TodoItemComponent implements OnChanges {
   }
 
   handleFormSubmit(): void {
-    if (this.form.valid) {
-      if (this.form.dirty) {
-        this.handleSave();
-        return;
-      }
+    if (!this.form.valid) {
+      return;
+    }
+    if (this.form.dirty) {
+      this.handleSave();
+    } else {
       this.handleCancel();
     }
   }

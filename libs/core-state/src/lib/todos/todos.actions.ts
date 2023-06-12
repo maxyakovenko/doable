@@ -18,14 +18,18 @@ export enum TodosActionTypes {
     Update = '[Todo] Update',
     Updated = '[Todo] Updated',
     UpdateMany = '[Todo] Update Many',
-    UndoCreated = '[Todo] Undo Created',
     RedoCreated = '[Todo] Redo Created',
-    UndoRemoved = '[Todo] Undo Removed',
-    RedoRemoved = '[Todo] Redo Removed',
-    UndoUpdated = '[Todo] Undo Updated',
-    RedoUpdated = '[Todo] Redo Updated',
-    UndoMarkAsCompleted = '[Todo] Undo Mark As Completed',
+    RedoDeletedMany = '[Todo] Redo Deleted Many',
     RedoMarkAsCompleted = '[Todo] Redo Mark As Completed',
+    RedoMarkAsNotCompleted = '[Todo] Redo Mark As Not Completed',
+    RedoRemoved = '[Todo] Redo Removed',
+    RedoUpdated = '[Todo] Redo Updated',
+    UndoCreated = '[Todo] Undo Created',
+    UndoDeletedMany = '[Todo] Undo Deleted Many',
+    UndoMarkAsCompleted = '[Todo] Undo Mark As Completed',
+    UndoMarkAsNotCompleted = '[Todo] Undo Mark As Not Completed',
+    UndoRemoved = '[Todo] Undo Removed',
+    UndoUpdated = '[Todo] Undo Updated',
 }
 
 export const create = createAction(TodosActionTypes.Create, props<{ payload: Todo }>());
@@ -50,3 +54,7 @@ export const undoUpdated = createAction(TodosActionTypes.UndoUpdated, props<{ pa
 export const redoUpdated = createAction(TodosActionTypes.RedoUpdated, props<{ payload: UndoableAction }>());
 export const undoMarkAsCompleted = createAction(TodosActionTypes.UndoMarkAsCompleted, props<{ payload: UndoableAction }>());
 export const redoMarkAsCompleted = createAction(TodosActionTypes.RedoMarkAsCompleted, props<{ payload: UndoableAction }>());
+export const undoMarkAsNotCompleted = createAction(TodosActionTypes.UndoMarkAsNotCompleted, props<{ payload: UndoableAction }>());
+export const redoMarkAsNotCompleted = createAction(TodosActionTypes.RedoMarkAsNotCompleted, props<{ payload: UndoableAction }>());
+export const undoRemovedMany = createAction(TodosActionTypes.UndoDeletedMany, props<{ payload: UndoableAction }>());
+export const redoRemovedMany = createAction(TodosActionTypes.RedoDeletedMany, props<{ payload: UndoableAction }>());

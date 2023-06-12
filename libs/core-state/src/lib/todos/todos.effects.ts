@@ -25,7 +25,7 @@ export class TodosEffects {
     deleteMany$ = createEffect(() => this.actions$.pipe(
         ofType(TodosActions.deleteMany),
         exhaustMap((action) => this.todosService.deleteMany(action.payload).pipe(
-            map(() => TodosActions.load())
+            switchMap(() => [TodosActions.load(), UndoableActions.add({ payload: action })])
         ))
     ));
 
@@ -39,7 +39,7 @@ export class TodosEffects {
     uncompleteTodos$ = createEffect(() => this.actions$.pipe(
         ofType(TodosActions.markAsNotCompleted),
         exhaustMap((action) => this.todosService.uncomplete(action.payload).pipe(
-            map(() => TodosActions.load())
+            switchMap(() => [TodosActions.load(), UndoableActions.add({ payload: action })])
         ))
     ));
 

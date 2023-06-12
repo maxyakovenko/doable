@@ -19,6 +19,10 @@ export class TodosService {
         return this.http.post<Todo>(this.getUrl(), todo);
     }
 
+    createMany(todos: Todo[]): Observable<Todo[]> {
+        return this.http.post<Todo[]>(`${this.getUrl()}/add`, { todos });
+    }
+
     update(todo: Todo): Observable<Todo> {
         return this.http.put<Todo>(this.getUrlWithId(todo.id as string), todo);
     }

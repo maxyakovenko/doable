@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Observable, filter, fromEvent, take, withLatestFrom } from 'rxjs';
+import { Observable, filter, fromEvent, map, take, withLatestFrom } from 'rxjs';
 import { TodoListFacade } from '@doable/core-state';
 import { Todo, createTodo } from '@doable/api-interfaces';
 import { TodosComponent } from './todos/todos.component';
@@ -113,7 +113,10 @@ export class TodoListComponent implements OnInit {
 
   markAllAsCompleted(): void {
     this.todos$
-      .pipe(take(1))
+      .pipe(
+        take(1),
+        map((todos) => todos.filter(todo => !todo.completed))
+      )
       .subscribe((todos) => {
         this.facade.markAsCompleted(todos);
       });
@@ -121,7 +124,10 @@ export class TodoListComponent implements OnInit {
 
   markAllAsNotCompleted(): void {
     this.todos$
-      .pipe(take(1))
+      .pipe(
+        take(1),
+        map((todos) => todos.filter(todo => todo.completed))
+      )
       .subscribe((todos) => {
         this.facade.markAsNotCompleted(todos);
       });

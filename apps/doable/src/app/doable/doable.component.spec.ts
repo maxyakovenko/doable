@@ -74,7 +74,7 @@ describe('DoableComponent', () => {
         it('clears todo list', () => {
             const doableActions = spectator.query(DoableActionsComponent);
             doableActions.clear.emit();
-            expect(facade.deleteMany).toHaveBeenCalledTimes(1);
+            expect(facade.clear).toHaveBeenCalledTimes(1);
         });
 
         it('marks single todo as completed', () => {
@@ -92,13 +92,13 @@ describe('DoableComponent', () => {
         it('marks all todos as completed', () => {
             const doableActions = spectator.query(DoableActionsComponent);
             doableActions.markAsCompleted.emit();
-            expect(facade.markAsCompleted).toHaveBeenCalledOnceWith([todos[0], todos[1]]);
+            expect(facade.markAllAsCompleted).toHaveBeenCalled();
         });
 
         it('marks all todos as not completed', () => {
             const doableActions = spectator.query(DoableActionsComponent);
             doableActions.markAsNotCompleted.emit();
-            expect(facade.markAsNotCompleted).toHaveBeenCalledOnceWith([todos[2]]);
+            expect(facade.markAllAsNotCompleted).toHaveBeenCalled();
         });
 
         it('deletes todo item', () => {

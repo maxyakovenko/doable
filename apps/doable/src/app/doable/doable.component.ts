@@ -3,7 +3,7 @@ import { Component, HostListener, OnInit } from '@angular/core';
 import { Todo, createTodo } from '@doable/api-interfaces';
 import { TodoListFacade } from '@doable/core-state';
 import { UntilDestroy } from '@ngneat/until-destroy';
-import { Observable, map, take } from 'rxjs';
+import { Observable } from 'rxjs';
 import { DoableActionsComponent } from './doable-actions/doable-actions.component';
 import { DoableHeaderComponent } from './doable-header/doable-header.component';
 import { DoableListComponent } from './doable-list/doable-list.component';
@@ -68,16 +68,15 @@ export class DoableComponent implements OnInit {
   }
 
   clear(): void {
-    // TODO: more elegant
-    this.todos$
-      .pipe(take(1))
-      .subscribe((todos) => {
-        this.facade.deleteMany(todos);
-      });
+    this.facade.clear();
   }
 
   delete(todo: Todo): void {
     this.facade.delete(todo);
+  }
+
+  deleteMany(todos: Todo[]): void {
+    this.facade.deleteMany(todos);
   }
 
   markAsCompleted(todo: Todo): void {
@@ -89,24 +88,10 @@ export class DoableComponent implements OnInit {
   }
 
   markAllAsCompleted(): void {
-    this.todos$
-      .pipe(
-        take(1),
-        map((todos) => todos.filter(todo => !todo.completed))
-      )
-      .subscribe((todos) => {
-        this.facade.markAsCompleted(todos);
-      });
+    this.facade.markAllAsCompleted();
   }
 
   markAllAsNotCompleted(): void {
-    this.todos$
-      .pipe(
-        take(1),
-        map((todos) => todos.filter(todo => todo.completed))
-      )
-      .subscribe((todos) => {
-        this.facade.markAsNotCompleted(todos);
-      });
+    this.facade.markAllAsNotCompleted();
   }
 }

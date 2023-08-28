@@ -44,7 +44,6 @@ export class DoableItemComponent implements OnChanges {
     note: new FormControl('')
   });
 
-  // TODO: replace
   get title(): string {
     return this.form.get('title').getRawValue();
   }

@@ -5,3 +5,7 @@ $doable-max-width: 570px;
     max-width: $doable-max-width;
     margin: 0 auto;
 }
+
+.doable-content {
+    height: calc(100vh - 50px - 0.5rem);
+}

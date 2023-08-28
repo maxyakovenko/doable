@@ -1,0 +1,7 @@
+$doable-max-width: 570px;
+
+:host {
+    display: block;
+    max-width: $doable-max-width;
+    margin: 0 auto;
+}

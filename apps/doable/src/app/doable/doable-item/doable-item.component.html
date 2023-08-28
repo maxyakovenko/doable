@@ -1,4 +1,4 @@
-<form [formGroup]="form" (ngSubmit)="handleFormSubmit()">
+<form [formGroup]="form" (ngSubmit)="handleFormSubmit()" data-testId="todo-form">
   <div class="form-check w-100">
     <div class="d-flex justify-content-between">
       <div class="w-100">
@@ -7,12 +7,14 @@
           class="form-check-input"
           [checked]="todo.completed"
           (change)="handleCheckboxChanged($event)"
+          data-testId="todo-checkbox"
         >
-        <input type="text" #titleInput class="todo__input todo__title" formControlName="title" [hidden]="!selected" autofocus>
+        <input type="text" #titleInput class="todo__input todo__title" formControlName="title" [hidden]="!selected" autofocus data-testId="todo-title-input">
         <label
           *ngIf="!selected"
           class="form-check-label user-select-none"
           (dblclick)="handleDoubleClick()"
+          data-testId="todo-title"
         >{{ todo.title }}</label>
       </div>
       <button
@@ -20,6 +22,7 @@
         class="btn-close"
         aria-label="Close"
         (click)="handleDeleteClick()"
+        data-testId="todo-delete-button"
       ></button>
     </div>
   </div>
@@ -27,11 +30,13 @@
   <div
     class="todo__selected-actions"
     *ngIf="selected"
+    data-testId="todo-actions"
   >
     <textarea
       placeholder="Notes"
       formControlName="note"
       class="todo__note todo__input my-2"
+      data-testId="todo-note"
     ></textarea>
   </div>
 </form>

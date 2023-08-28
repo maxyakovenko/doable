@@ -1,9 +1,9 @@
 import { Component } from '@angular/core';
-import { TodoListComponent } from './todo-list/todo-list.component';
+import { DoableComponent } from './doable/doable.component';
 
 @Component({
   standalone: true,
-  imports: [TodoListComponent],
+  imports: [DoableComponent],
   selector: 'doable-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css'],

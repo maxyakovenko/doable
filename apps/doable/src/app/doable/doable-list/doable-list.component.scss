@@ -1,0 +1,5 @@
+:host {
+    display: block;
+    max-height: calc(100vh - 50px - 0.5rem - 38px - 3rem - 0.5rem); // TODO
+    overflow: auto;
+}

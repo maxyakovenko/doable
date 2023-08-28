@@ -1,0 +1,23 @@
+<div class="row d-flex justify-content-center align-items-center h-100 doable">
+    <doable-header class="card rounded-3 mb-2"></doable-header>
+    <div class="card rounded-3 doable-content">
+        <div class="card-body p-4">
+            <doable-actions
+                (create)="create($event)"
+                (clear)="clear()"
+                (markAsCompleted)="markAllAsCompleted()"
+                (markAsNotCompleted)="markAllAsNotCompleted()"
+            ></doable-actions>
+            <doable-list
+                [todos]="(todos$ | async)!"
+                [currentTodo]="(currentTodo$ | async)!"
+                (todoChecked)="markAsCompleted($event)"
+                (todoCancelled)="select(null)"
+                (todoDeleted)="delete($event)"
+                (todoSelected)="select($event)"
+                (todoUnchecked)="markAsNotCompleted($event)"
+                (todoUpdated)="update($event)"
+            ></doable-list>
+        </div>
+    </div>
+</div>

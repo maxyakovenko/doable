@@ -1,3 +1,4 @@
+import { animate, state, style, transition, trigger } from '@angular/animations';
 import { CommonModule } from '@angular/common';
 import { Component, ElementRef, EventEmitter, HostBinding, HostListener, Input, OnChanges, Output, SimpleChanges, ViewChild, ViewEncapsulation } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
@@ -6,16 +7,32 @@ import { Todo } from '@doable/api-interfaces';
 @Component({
   // eslint-disable-next-line @angular-eslint/component-selector
   selector: '[doableItem]',
-  templateUrl: './todo.component.html',
-  styleUrls: ['./todo.component.css'],
+  templateUrl: './doable-item.component.html',
+  styleUrls: ['./doable-item.component.css'],
   encapsulation: ViewEncapsulation.None,
   standalone: true,
   imports: [CommonModule, ReactiveFormsModule],
+  animations: [
+    trigger('openClose', [
+      state('open', style({
+        height: '110px'
+      })),
+      state('closed', style({
+        height: '24px'
+      })),
+      transition('open => closed', [
+        animate('0.15s ease')
+      ]),
+      transition('closed => open', [
+        animate('0.15s ease')
+      ]),
+    ])
+  ]
 })
-export class TodoItemComponent implements OnChanges {
+export class DoableItemComponent implements OnChanges {
   constructor(private elementRef: ElementRef) { }
 
-  @ViewChild('titleInput') titleInput: ElementRef;
+  @ViewChild('titleInput') private titleInput: ElementRef;
   @Input() todo: Todo;
   @Input() selected: boolean;
   @Output() checked: EventEmitter<void> = new EventEmitter();
@@ -26,6 +43,10 @@ export class TodoItemComponent implements OnChanges {
   @Output() cancelled: EventEmitter<Todo> = new EventEmitter();
   @HostBinding('class.todo--selected') get isSelected() {
     return this.selected;
+  }
+
+  @HostBinding('class.todo--completed') get isCompleted() {
+    return this.todo.completed;
   }
 
   @HostListener('document:click', ['$event'])
@@ -44,10 +65,6 @@ export class TodoItemComponent implements OnChanges {
     return this.form.get('title').getRawValue();
   }
 
-  get titleInputElement(): HTMLInputElement {
-    return this.titleInput?.nativeElement;
-  }
-
   get note(): string {
     return this.form.get('note').getRawValue();
   }
@@ -61,12 +78,15 @@ export class TodoItemComponent implements OnChanges {
     }
   }
 
-  focusTitleInput(): void {
-    this.titleInputElement?.focus();
+  private focusTitleInput(): void {
+    this.titleInput?.nativeElement.focus();
   }
 
   handleCheckboxChanged(event: Event): void {
     const target = (event.target as HTMLInputElement);
+    if (this.isSelected) {
+      this.handleCancel();
+    }
     target.checked ? this.checked.emit() : this.unchecked.emit();
   }
 
@@ -78,16 +98,16 @@ export class TodoItemComponent implements OnChanges {
     this.doubleClicked.emit();
   }
 
-  handleSave(): void {
+  private handleSave(): void {
     this.saved.emit({ ...this.todo, title: this.title, note: this.note });
   }
 
-  handleCancel(): void {
+  private handleCancel(): void {
     this.cancelled.emit();
   }
 
   handleFormSubmit(): void {
-    if (!this.form.valid) {
+    if (!this.form.valid || !this.selected) {
       return;
     }
     if (this.form.dirty) {

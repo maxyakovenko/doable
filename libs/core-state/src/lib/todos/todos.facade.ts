@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Todo } from '@doable/api-interfaces';
 import { ActionsSubject, Store, select } from '@ngrx/store';
-import { Observable, filter, take } from 'rxjs';
+import { Observable, filter, map, take } from 'rxjs';
 import * as UndoableActions from '../undoable/undoable.actions';
 import { UndoableAction } from '../undoable/undoable.actions';
 import { selectFuture, selectHasFuture, selectHasPast, selectPast } from '../undoable/undoable.selectors';
@@ -55,12 +55,40 @@ export class TodoListFacade {
         this.store.dispatch(TodoActions.select({ payload: todo }));
     }
 
+    clear(): void {
+        this.todos$
+            .pipe(take(1))
+            .subscribe((todos) => this.deleteMany(todos));
+    }
+
     deleteMany(todos: Todo[]): void {
         this.store.dispatch(TodoActions.deleteMany({ payload: todos }));
     }
 
     delete(todo: Todo): void {
         this.store.dispatch(TodoActions.remove({ payload: todo }));
+    }
+
+    markAllAsCompleted(): void {
+        this.todos$
+            .pipe(
+                take(1),
+                map((todos) => todos.filter(todo => !todo.completed))
+            )
+            .subscribe((todos) => {
+                this.markAsCompleted(todos);
+            });
+    }
+
+    markAllAsNotCompleted(): void {
+        this.todos$
+            .pipe(
+                take(1),
+                map((todos) => todos.filter(todo => todo.completed))
+            )
+            .subscribe((todos) => {
+                this.markAsNotCompleted(todos);
+            });
     }
 
     markAsCompleted(todos: Todo[]): void {

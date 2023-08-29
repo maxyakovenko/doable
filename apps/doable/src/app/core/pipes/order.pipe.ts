@@ -6,9 +6,7 @@ import { Todo } from '@doable/api-interfaces';
   standalone: true
 })
 export class OrderPipe implements PipeTransform {
-
   transform(todos: Todo[]): Todo[] {
-    return todos.sort((a, b) => b.completed ? -1: a.completed ? 1 : 0);
+    return [...todos].sort((a, b) => b.completed ? -1: a.completed ? 1 : 0);
   }
-
 }

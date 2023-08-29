@@ -48,6 +48,21 @@ describe('TodoComponent', () => {
         expect(spectator.query(byTestId('todo-title'))).toHaveExactText('todo2');
     });
 
+    it('emits cancelled event on checkbox check if the item is selected', () => {
+        spectator.setInput('selected', true);
+        spyOn(spectator.component.cancelled, 'emit');
+        spectator.click(byTestId('todo-checkbox'));
+        expect(spectator.component.cancelled.emit).toHaveBeenCalled();
+    });
+
+    it('emits cancelled event on checkbox uncheck if the item is selected', () => {
+        spectator.setInput('todo', {...todo, completed: true});
+        spectator.setInput('selected', true);
+        spyOn(spectator.component.cancelled, 'emit');
+        spectator.click(byTestId('todo-checkbox'));
+        expect(spectator.component.cancelled.emit).toHaveBeenCalled();
+    });
+
     it('checks checkbox on click', () => {
         spyOn(spectator.component.checked, 'emit');
         spectator.click(byTestId('todo-checkbox'));

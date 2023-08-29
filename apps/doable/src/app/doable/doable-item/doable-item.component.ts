@@ -1,3 +1,4 @@
+import { animate, state, style, transition, trigger } from '@angular/animations';
 import { CommonModule } from '@angular/common';
 import { Component, ElementRef, EventEmitter, HostBinding, HostListener, Input, OnChanges, Output, SimpleChanges, ViewChild, ViewEncapsulation } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
@@ -11,6 +12,22 @@ import { Todo } from '@doable/api-interfaces';
   encapsulation: ViewEncapsulation.None,
   standalone: true,
   imports: [CommonModule, ReactiveFormsModule],
+  animations: [
+    trigger('openClose', [
+      state('open', style({
+        height: '110px'
+      })),
+      state('closed', style({
+        height: '24px'
+      })),
+      transition('open => closed', [
+        animate('0.15s ease')
+      ]),
+      transition('closed => open', [
+        animate('0.15s ease')
+      ]),
+    ])
+  ]
 })
 export class DoableItemComponent implements OnChanges {
   constructor(private elementRef: ElementRef) { }
@@ -67,6 +84,9 @@ export class DoableItemComponent implements OnChanges {
 
   handleCheckboxChanged(event: Event): void {
     const target = (event.target as HTMLInputElement);
+    if (this.isSelected) {
+      this.handleCancel();
+    }
     target.checked ? this.checked.emit() : this.unchecked.emit();
   }
 

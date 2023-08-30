@@ -15,7 +15,11 @@
         "main": "apps/doable/src/main.ts",
         "polyfills": ["zone.js"],
         "tsConfig": "apps/doable/tsconfig.app.json",
-        "assets": ["apps/doable/src/favicon.ico", "apps/doable/src/assets"],
+        "assets": ["apps/doable/src/favicon.ico", "apps/doable/src/assets",  {
+          "glob": "*.svg",
+          "input": "./node_modules/bootstrap-icons/",
+          "output": "/"
+        }],
         "styles": ["apps/doable/src/styles.css"],
         "scripts": [
           "bootstrap/dist/js/bootstrap.bundle.min.js"

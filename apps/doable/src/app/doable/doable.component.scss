@@ -1,7 +1,17 @@
+@import 'bootstrap/scss/functions';
+@import 'bootstrap/scss/variables';
+@import 'bootstrap/scss/mixins';
+
 $doable-max-width: 570px;
 
 :host {
     display: block;
     max-width: $doable-max-width;
     margin: 0 auto;
+}
+
+@include color-mode(dark) {
+    .card {
+        --bs-card-bg: color(srgb 0.1369 0.1411 0.1498);
+    }
 }

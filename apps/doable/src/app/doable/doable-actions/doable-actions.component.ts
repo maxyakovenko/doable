@@ -6,7 +6,7 @@ import { Todo, createTodo } from '@doable/api-interfaces';
 @Component({
   selector: 'doable-actions',
   templateUrl: './doable-actions.component.html',
-  styleUrls: ['./doable-actions.component.css'],
+  styleUrls: ['./doable-actions.component.scss'],
   standalone: true,
   imports: [CommonModule, ReactiveFormsModule]
 })

@@ -1,0 +1,58 @@
+@import 'bootstrap/scss/functions';
+@import 'bootstrap/scss/variables';
+@import 'bootstrap/scss/mixins';
+
+.todo {
+    --bs-list-group-border-color: transparent;
+}
+
+.todo--completed .form-check-label {
+    text-decoration: line-through;
+}
+
+.todo:not(.todo--selected) .btn-close {
+    visibility: hidden;
+}
+
+.todo:hover .btn-close {
+    visibility: visible;
+}
+
+.todo--selected {
+    border-top-left-radius: inherit;
+    border-top-right-radius: inherit;
+    border-bottom-left-radius: inherit;
+    border-bottom-right-radius: inherit;
+}
+
+.todo__title {
+    padding: 0;
+}
+
+.todo__input {
+    background: transparent;
+    border: none;
+    width: 100%;
+    outline: none;
+}
+
+.todo__note {
+    display: block;
+    padding-left: 1.5em;
+    background: transparent;
+    border: none;
+    resize: none;
+}
+
+@include color-mode(dark) {
+    .todo--selected {
+        --bs-list-group-bg: #2b2d2e;
+    }
+}
+
+
+@include color-mode(light) {
+    .todo--selected {
+        --bs-list-group-bg: var(--bs-secondary-bg);
+    }
+}

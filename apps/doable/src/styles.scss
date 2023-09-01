@@ -1,0 +1,13 @@
+@import "bootstrap/scss/bootstrap";
+
+@include color-mode(light) {
+    body {
+        background-color: color(srgb 0.1369 0.1411 0.1498);
+    }
+}
+
+@include color-mode(dark) {
+    body {
+        --bs-body-bg: color(srgb 0.1369 0.1411 0.1498);
+    }
+}

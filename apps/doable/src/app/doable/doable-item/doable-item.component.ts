@@ -8,7 +8,7 @@ import { Todo } from '@doable/api-interfaces';
   // eslint-disable-next-line @angular-eslint/component-selector
   selector: '[doableItem]',
   templateUrl: './doable-item.component.html',
-  styleUrls: ['./doable-item.component.css'],
+  styleUrls: ['./doable-item.component.scss'],
   encapsulation: ViewEncapsulation.None,
   standalone: true,
   imports: [CommonModule, ReactiveFormsModule],

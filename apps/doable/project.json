@@ -20,7 +20,7 @@
           "input": "./node_modules/bootstrap-icons/",
           "output": "/"
         }],
-        "styles": ["apps/doable/src/styles.css"],
+        "styles": ["apps/doable/src/styles.scss"],
         "scripts": [
           "bootstrap/dist/js/bootstrap.bundle.min.js"
         ]

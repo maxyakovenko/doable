@@ -4,13 +4,14 @@ import { Todo, createTodo } from '@doable/api-interfaces';
 import { OrderPipe } from '../../core/pipes/order.pipe';
 import { DoableActionsComponent } from '../doable-actions/doable-actions.component';
 import { DoableItemComponent } from '../doable-item/doable-item.component';
+import { DragDropModule } from '@angular/cdk/drag-drop';
 
 @Component({
   selector: 'doable-list',
   templateUrl: './doable-list.component.html',
   styleUrls: ['./doable-list.component.scss'],
   standalone: true,
-  imports: [CommonModule, DoableItemComponent, DoableActionsComponent, OrderPipe]
+  imports: [CommonModule, DoableItemComponent, DoableActionsComponent, OrderPipe, DragDropModule]
 })
 export class DoableListComponent {
   @Input() todos: Todo[] = [];

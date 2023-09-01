@@ -1,3 +1,4 @@
+import { CdkDrag, CdkDropList } from '@angular/cdk/drag-drop';
 import { Todo, createTodo } from '@doable/api-interfaces';
 import { Spectator, createComponentFactory } from '@ngneat/spectator';
 import { MockComponent, MockPipe } from 'ng-mocks';
@@ -69,6 +70,19 @@ describe('DoableListComponent', () => {
         it('others todos should be unselected', () => {
             const [todo, ...others] = spectator.queryAll(DoableItemComponent);
             expect(others.every((item) => !item.selected)).toBeTrue();
+        });
+
+        describe('drag and drop', () => {
+            
+            it('has cdkDropList', () => {
+                const dropList = spectator.query(CdkDropList);
+                expect(dropList).toBeTruthy();
+            });
+
+            it('has cdkDrag handlers count equal to todos count', () => {
+                const cdkDragHandlers = spectator.queryAll(CdkDrag);
+                expect(cdkDragHandlers.length).toBe(todos.length);
+            });
         });
 
         describe('@outputs', () => {
